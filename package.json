@@ -1,0 +1,13 @@
+{
+  "name": "Yoki-Telegram-Bot",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "node-telegram-bot-api": "^0.50.0"
+  }
+}
