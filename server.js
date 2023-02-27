@@ -46,6 +46,10 @@ const inlineKeyboard = {
         text: "Sync Y_LV",
         callback_data: "sync_lv",
       },
+      {
+        text: "Sync Y_IF",
+        callback_data: "sync_if",
+      },
     ],
   ],
 };
@@ -97,6 +101,26 @@ bot.on("callback_query", (callbackQuery) => {
           })
         );
       break;
+      case "sync_if":
+      const ifUrl =
+        "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_sync_products.php";
+      bot.answerCallbackQuery(callbackQuery.id, {
+        text: "Синхронізація Y_IF розпочалась",
+      });
+      sendHttpRequest(ifUrl)
+        .then(() =>
+          bot.editMessageText("Y_IF synchronized successfully", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        )
+        .catch(() =>
+          bot.editMessageText("Failed to synchronize Y_IF", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        );
+      break;
     default:
       break;
   }
@@ -130,6 +154,14 @@ bot.on("message", (msg) => {
       .then(() => bot.sendMessage(chatId, "Y_LV synchronized successfully"))
       .catch(() => bot.sendMessage(chatId, "Failed to synchronize Y_LV"));
   }
+  else if (msg.text === "Sync Y_IF") {
+    const IFUrl =
+      "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_sync_products.php";
+    bot.sendMessage(chatId, "Синхронізація Y_LV розпочалась");
+    sendHttpRequest(IFUrl)
+      .then(() => bot.sendMessage(chatId, "Y_IF synchronized successfully"))
+      .catch(() => bot.sendMessage(chatId, "Failed to synchronize Y_IF"));
+  }
 });
 
 // Настраиваем отправку HTTP-запросов по расписанию
@@ -142,4 +174,9 @@ scheduleHttpRequest(
   "https://yoki.ua/lviv/wp-content/themes/yoki/functions/iiko_sync_products.php",
   09,
   25
+);
+scheduleHttpRequest(
+  "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_sync_products.php",
+  09,
+  30
 );
