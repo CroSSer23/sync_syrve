@@ -50,6 +50,18 @@ const inlineKeyboard = {
         text: "Sync Y_IF",
         callback_data: "sync_if",
       },
+      {
+        text: "Import Y_CV",
+        callback_data: "import_cv",
+      },
+      {
+        text: "Import Y_LV",
+        callback_data: "import_lv",
+      },
+      {
+        text: "Import Y_IF",
+        callback_data: "import_if",
+      },
     ],
   ],
 };
