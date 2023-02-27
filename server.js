@@ -121,6 +121,67 @@ bot.on("callback_query", (callbackQuery) => {
           })
         );
       break;
+
+      case "import_cv":
+      const importcvUrl =
+        "https://yoki.ua/wp-content/themes/yoki/functions/iiko_import_products.php";
+      bot.answerCallbackQuery(callbackQuery.id, {
+        text: "Імпорт Y_CV розпачався",
+      });
+      sendHttpRequest(importcvUrl)
+        .then(() =>
+          bot.editMessageText("Y_CV imported successfully", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        )
+        .catch(() =>
+          bot.editMessageText("Failed to import Y_CV", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        );
+      break;
+    case "import_lv":
+      const importlvUrl =
+        "https://yoki.ua/lviv/wp-content/themes/yoki/functions/iiko_import_products.php";
+      bot.answerCallbackQuery(callbackQuery.id, {
+        text: "Імпорт Y_LV розпочався",
+      });
+      sendHttpRequest(importlvUrl)
+        .then(() =>
+          bot.editMessageText("Y_LV imported successfully", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        )
+        .catch(() =>
+          bot.editMessageText("Failed to import Y_LV", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        );
+      break;
+      case "import_if":
+      const importifUrl =
+        "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_import_products.php";
+      bot.answerCallbackQuery(callbackQuery.id, {
+        text: "Імпорт Y_IF розпочався",
+      });
+      sendHttpRequest(importifUrl)
+        .then(() =>
+          bot.editMessageText("Y_IF imported successfully", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        )
+        .catch(() =>
+          bot.editMessageText("Failed to import Y_IF", {
+            chat_id: chatId,
+            message_id: messageId,
+          })
+        );
+      break;
     default:
       break;
   }
@@ -155,28 +216,67 @@ bot.on("message", (msg) => {
       .catch(() => bot.sendMessage(chatId, "Failed to synchronize Y_LV"));
   }
   else if (msg.text === "Sync Y_IF") {
-    const IFUrl =
+    const ifUrl =
       "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_sync_products.php";
     bot.sendMessage(chatId, "Синхронізація Y_LV розпочалась");
-    sendHttpRequest(IFUrl)
+    sendHttpRequest(ifUrl)
       .then(() => bot.sendMessage(chatId, "Y_IF synchronized successfully"))
       .catch(() => bot.sendMessage(chatId, "Failed to synchronize Y_IF"));
+  }
+
+  else if (msg.text === "Import Y_CV") {
+    const importcvUrl =
+      "https://yoki.ua/wp-content/themes/yoki/functions/iiko_import_products.php";
+    bot.sendMessage(chatId, "Імпорт Y_CV розпочався");
+    sendHttpRequest(importcvUrl)
+      .then(() => bot.sendMessage(chatId, "Y_CV imported successfully"))
+      .catch(() => bot.sendMessage(chatId, "Failed to import Y_CV"));
+  } else if (msg.text === "Import Y_LV") {
+    const importlvUrl =
+      "https://yoki.ua/lviv/wp-content/themes/yoki/functions/iiko_import_products.php";
+    bot.sendMessage(chatId, "Імпорт Y_LV розпочався");
+    sendHttpRequest(importlvUrl)
+      .then(() => bot.sendMessage(chatId, "Y_LV imported successfully"))
+      .catch(() => bot.sendMessage(chatId, "Failed to import Y_LV"));
+  }
+  else if (msg.text === "Import Y_IF") {
+    const importifUrl =
+      "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_import_products.php";
+    bot.sendMessage(chatId, "Імпорт Y_LV розпочався");
+    sendHttpRequest(importifUrl)
+      .then(() => bot.sendMessage(chatId, "Y_IF imported successfully"))
+      .catch(() => bot.sendMessage(chatId, "Failed to import Y_IF"));
   }
 });
 
 // Настраиваем отправку HTTP-запросов по расписанию
 scheduleHttpRequest(
+  "https://yoki.ua/wp-content/themes/yoki/functions/iiko_import_products.php",
+  07,
+  00
+);
+scheduleHttpRequest(
+  "https://yoki.ua/lviv/wp-content/themes/yoki/functions/iiko_import_products.php",
+  07,
+  05
+);
+scheduleHttpRequest(
+  "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_import_products.php",
+  07,
+  10
+);
+scheduleHttpRequest(
   "https://yoki.ua/wp-content/themes/yoki/functions/iiko_sync_products.php",
-  09,
-  20
+  07,
+  15
 );
 scheduleHttpRequest(
   "https://yoki.ua/lviv/wp-content/themes/yoki/functions/iiko_sync_products.php",
-  09,
-  25
+  07,
+  20
 );
 scheduleHttpRequest(
   "https://yoki.ua/if/wp-content/themes/yoki/functions/iiko_sync_products.php",
-  09,
-  30
+  07,
+  25
 );
